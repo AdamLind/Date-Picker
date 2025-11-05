@@ -1,75 +1,119 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import React, {useEffect, useState} from "react";
+import {Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 
 export default function HomeScreen() {
+  const [greeting, setGreeting] = useState("");
+  const [activityType, setActivityType] = useState("Date");
+  const [locationType, setLocationType] = useState("Stay In");
+  const [startDate, setStartDate] = useState(new Date());
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const currentTime = new Date().getHours();
+
+  useEffect(() => {
+    if (currentTime >= 5 && currentTime < 12) {
+      setGreeting("Good Morning");
+    } else if (currentTime >= 12 && currentTime < 17) {
+      setGreeting("Good Afternoon");
+    } else if (currentTime >= 17 && currentTime < 21) {
+      setGreeting("Good Evening");
+    } else {
+      setGreeting("Good Night");
+    }
+  }, []);
+
+  const socialLevel = ["Date", "Group-Date", "Activity"];
+  const locations = ["Stay In", "Go Out"];
+
+  const handleSelectActivityType = (activity: string) => {
+    setActivityType(activity);
+  };
+
+  const handleSelectLocationType = (location: string) => {
+    setLocationType(location);
+  };
+
+  const showStartDatePicker = () => setShowStartPicker(true);
+
+  const onStartDateChange = (event: any, selectedDate?: Date) => {
+    const currentDate = selectedDate || startDate;  // Use the selected date or the current date
+    setShowStartPicker(false);  // Close the date picker after selection
+    setStartDate(currentDate);  // Update the state with the new date
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView
+      className="flex-1"
+      contentContainerClassName="justify-start items-center h-full"
+    >
+      <View className="w-full bg-gray-700 rounded-b-4xl p-5 pt-15">
+        <Text className="text-white font-bold w-full text-3xl">{greeting}</Text>
+        <View className="mt-[30px] mb-[25px] px-[5px]">
+          <View className="flex-col gap-[25px]">
+            <View className="flex flex-row items-center justify-around ">
+              {socialLevel.map((activity) => (
+                <Pressable
+                  key={activity}
+                  onPress={() => handleSelectActivityType(activity)}
+                >
+                  <Text
+                    className={`w-32 text-[18px] text-gray-300 text-center ${
+                      activityType === activity
+                        ? "font-semibold text-white"
+                        : ""
+                    }`}
+                  >
+                    {activity}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+            <View className="w-full flex flex-col gap-[15px]">
+              <View className="flex flex-row items-center justify-center gap-[34px] w-full">
+                {locations.map((location) => (
+                  <Pressable
+                    className={`flex-grow p-[13px] m-auto border border-gray rounded-[10px] bg-gray-800 ${
+                      locationType === location ? "border-white" : ""
+                    }`}
+                    key={location}
+                    onPress={() => handleSelectLocationType(location)}
+                  >
+                    <Text
+                      className={`h-6 text-[18px] text-gray-300 text-center ${
+                        locationType === location ? "text-white" : ""
+                      }`}
+                    >
+                      {location}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+              <View>
+                {showStartPicker && (
+                  <DateTimePicker
+                    value={startDate}
+                    mode="date"
+                    display="default"
+                    onChange={onStartDateChange}
+                  />
+                )}
+                <Pressable onPress={showStartDatePicker} className="bg-gray-800 w-full h-[50px] rounded-t-lg border border-gray-500 border-b-0"></Pressable>
+                <View className="w-full border-t border-gray-500"></View>
+                <View className="bg-gray-800 w-full h-[50px] rounded-b-lg border border-gray-500 border-t-0"></View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  mainSearchArea: {
+    flex: 1,
+    width: "100%",
+    height: "auto",
+    backgroundColor: "#185e63ff",
   },
 });
