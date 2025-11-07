@@ -13,10 +13,10 @@ I used VS Code and Expo Go.
 
 I developed this app using React Native. React Native is a cross-platform language that closely resembles the React web language.
 
-Notable Libraries:
-nativewind (tailwind css for react native apps)
-expo-Location
-react-native-community/datetimepicker
+##### Notable Libraries:
+* nativewind (tailwind css for react native apps)
+* expo-Location
+* react-native-community/datetimepicker
 
 
 # Useful Websites
