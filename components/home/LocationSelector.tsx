@@ -8,6 +8,8 @@ export default function LocationSelector() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  // Prompt location permission and then get current location
+  // Sets error message if permission is denied
   const fetchLocation = async () => {
     setLoading(true);
     setErrorMsg(null);

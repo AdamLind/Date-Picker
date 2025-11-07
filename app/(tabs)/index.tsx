@@ -36,6 +36,7 @@ export default function HomeScreen() {
     (activity) => activity.id == selectedActivityType
   );
 
+  // This is what happens when the generate button is pressed. For now it just sends an alert with all the input info.
   const handleGenerate = () => {
     if (!endDate || endDate < startDate) {
       setShowEndPicker(true);

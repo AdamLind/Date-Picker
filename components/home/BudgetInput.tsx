@@ -29,7 +29,7 @@ export default function BudgetCountInput({
   // --- Handlers ---
 
   const handleTextChange = (text: string) => {
-    // 1. Clean the input string (allow only digits and one decimal)
+    // Clean the input string (allow only digits and one decimal)
     let rawNumberString = text.replace(/[^0-9.]/g, "");
     const parts = rawNumberString.split(".");
     if (parts.length > 2) {
@@ -41,7 +41,6 @@ export default function BudgetCountInput({
     if (integerPart.length > maxIntLength) {
       // If the new input exceeds the limit, IGNORE the change
       // and keep the current rawBudget state.
-      // Optionally, you can add haptic feedback or a visual warning here.
       return;
     }
 
@@ -51,7 +50,7 @@ export default function BudgetCountInput({
   const handleBlur = () => {
     setIsEditingBudget(false);
 
-    // 🎯 THE FIX: Update the parent's budget state ONLY on blur.
+    // Update the parent's budget state ONLY on blur.
     const number = parseFloat(rawBudget);
 
     // Set the final number to the parent state. Use null if NaN (empty/invalid input)

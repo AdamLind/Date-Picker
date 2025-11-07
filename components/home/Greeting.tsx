@@ -5,6 +5,7 @@ export default function Greeting() {
   const [greeting, setGreeting] = useState("");
 
   const currentHours = new Date().getHours();
+  // On mount check current time and format greeting appropriately.
   useEffect(() => {
     if (currentHours >= 5 && currentHours < 12) {
       setGreeting("Good Morning");
