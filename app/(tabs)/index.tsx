@@ -1,44 +1,68 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
-import React, {useEffect, useState} from "react";
-import {Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import ActivityTypeSelector from "@/components/home/ActivityTypeSelector";
+import BudgetInput from "@/components/home/BudgetInput";
+import InOrOutSelector from "@/components/home/InOrOutSelector";
+import LocationSelector from "@/components/home/LocationSelector";
+import HeadCountInput from "@/components/home/NumberInput";
+import {useRef, useState} from "react";
+import {Pressable, ScrollView, Text, TextInput, View} from "react-native";
+import Greeting from "../../components/home/Greeting";
+import SocialSelector from "../../components/home/SocialSelector";
+import StartEndDateTime from "../../components/home/StartEndDateTime";
 
 export default function HomeScreen() {
-  const [greeting, setGreeting] = useState("");
-  const [activityType, setActivityType] = useState("Date");
+  const [socialType, setSocialType] = useState("Date");
   const [locationType, setLocationType] = useState("Stay In");
   const [startDate, setStartDate] = useState(new Date());
-  const [showStartPicker, setShowStartPicker] = useState(false);
-  const currentTime = new Date().getHours();
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+  const [budget, setBudget] = useState<number | null>(null);
+  const [headCount, setHeadCount] = useState<number | null>(null);
+  const [selectedActivityType, setSelectedActivityType] = useState(1);
+  const budgetRef = useRef<TextInput | null>(null);
+  const headCountRef = useRef<TextInput | null>(null);
 
-  useEffect(() => {
-    if (currentTime >= 5 && currentTime < 12) {
-      setGreeting("Good Morning");
-    } else if (currentTime >= 12 && currentTime < 17) {
-      setGreeting("Good Afternoon");
-    } else if (currentTime >= 17 && currentTime < 21) {
-      setGreeting("Good Evening");
-    } else {
-      setGreeting("Good Night");
+  const lastActivityElement =
+    socialType === "Date"
+      ? {id: 4, name: "Close", icon: "heart-outline", color: "bg-pink-500"}
+      : {id: 4, name: "Cozy", icon: "cafe-outline", color: "bg-green-600"};
+
+  const activityType = [
+    {id: 1, name: "Food", icon: "pizza-outline", color: "bg-red-500"},
+    {id: 2, name: "Active", icon: "basketball-outline", color: "bg-amber-500"},
+    {id: 3, name: "Relax", icon: "film-outline", color: "bg-blue-500"},
+    lastActivityElement,
+  ];
+  const currentActivityType = activityType.find(
+    (activity) => activity.id == selectedActivityType
+  );
+
+  const handleGenerate = () => {
+    if (!endDate || endDate < startDate) {
+      setShowEndPicker(true);
+      return;
     }
-  }, []);
+    if (!budget && budgetRef.current) {
+      budgetRef.current.focus();
+      return;
+    }
+    if (socialType != "Date" && !headCount && headCountRef.current) {
+      headCountRef.current.focus();
+      return;
+    }
+    alert(
+      `
+This button will do something really awesome soon!
 
-  const socialLevel = ["Date", "Group-Date", "Activity"];
-  const locations = ["Stay In", "Go Out"];
+Date Details:
 
-  const handleSelectActivityType = (activity: string) => {
-    setActivityType(activity);
-  };
-
-  const handleSelectLocationType = (location: string) => {
-    setLocationType(location);
-  };
-
-  const showStartDatePicker = () => setShowStartPicker(true);
-
-  const onStartDateChange = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || startDate;  // Use the selected date or the current date
-    setShowStartPicker(false);  // Close the date picker after selection
-    setStartDate(currentDate);  // Update the state with the new date
+Relation Type: ${socialType}
+In or Out: ${locationType}
+Start Date: ${startDate.toLocaleString()}
+End Date: ${endDate?.toLocaleString()}
+Budget: ${budget}
+Activity Type: ${currentActivityType?.name}
+      `
+    );
   };
 
   return (
@@ -46,74 +70,58 @@ export default function HomeScreen() {
       className="flex-1"
       contentContainerClassName="justify-start items-center h-full"
     >
-      <View className="w-full bg-gray-700 rounded-b-4xl p-5 pt-15">
-        <Text className="text-white font-bold w-full text-3xl">{greeting}</Text>
-        <View className="mt-[30px] mb-[25px] px-[5px]">
+      <View className="w-full bg-gray-700 rounded-b-4xl p-[25px] pt-15">
+        <Greeting />
+        <View className="mt-[30px]">
           <View className="flex-col gap-[25px]">
-            <View className="flex flex-row items-center justify-around ">
-              {socialLevel.map((activity) => (
-                <Pressable
-                  key={activity}
-                  onPress={() => handleSelectActivityType(activity)}
-                >
-                  <Text
-                    className={`w-32 text-[18px] text-gray-300 text-center ${
-                      activityType === activity
-                        ? "font-semibold text-white"
-                        : ""
-                    }`}
-                  >
-                    {activity}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
+            <SocialSelector type={socialType} setType={setSocialType} />
             <View className="w-full flex flex-col gap-[15px]">
-              <View className="flex flex-row items-center justify-center gap-[34px] w-full">
-                {locations.map((location) => (
-                  <Pressable
-                    className={`flex-grow p-[13px] m-auto border border-gray rounded-[10px] bg-gray-800 ${
-                      locationType === location ? "border-white" : ""
-                    }`}
-                    key={location}
-                    onPress={() => handleSelectLocationType(location)}
-                  >
-                    <Text
-                      className={`h-6 text-[18px] text-gray-300 text-center ${
-                        locationType === location ? "text-white" : ""
-                      }`}
-                    >
-                      {location}
-                    </Text>
-                  </Pressable>
-                ))}
-              </View>
-              <View>
-                {showStartPicker && (
-                  <DateTimePicker
-                    value={startDate}
-                    mode="date"
-                    display="default"
-                    onChange={onStartDateChange}
+              <InOrOutSelector
+                inOrOut={locationType}
+                setInOrOut={setLocationType}
+              />
+              <StartEndDateTime
+                showEndPicker={showEndPicker}
+                setShowEndPicker={setShowEndPicker}
+                setStart={setStartDate}
+                setEnd={setEndDate}
+                start={startDate}
+                end={endDate}
+              />
+              {locationType == "Go Out" && <LocationSelector />}
+              <View className="flex flex-row gap-5">
+                <BudgetInput
+                  budget={budget}
+                  setBudget={setBudget}
+                  ref={budgetRef}
+                />
+                {socialType != "Date" && (
+                  <HeadCountInput
+                    placeholder="Head Count"
+                    headCount={headCount}
+                    setHeadCount={setHeadCount}
+                    ref={headCountRef}
                   />
                 )}
-                <Pressable onPress={showStartDatePicker} className="bg-gray-800 w-full h-[50px] rounded-t-lg border border-gray-500 border-b-0"></Pressable>
-                <View className="w-full border-t border-gray-500"></View>
-                <View className="bg-gray-800 w-full h-[50px] rounded-b-lg border border-gray-500 border-t-0"></View>
               </View>
+              <ActivityTypeSelector
+                activities={activityType}
+                selectedType={selectedActivityType}
+                setSelectedType={setSelectedActivityType}
+              />
             </View>
+            {/* Generate Button */}
+            <Pressable
+              onPress={handleGenerate}
+              className={`w-full h-[50px] justify-center rounded-[10px] ${currentActivityType?.color}`}
+            >
+              <Text className="text-center text-white font-semibold text-[18px]">
+                Generate
+              </Text>
+            </Pressable>
           </View>
         </View>
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  mainSearchArea: {
-    flex: 1,
-    width: "100%",
-    height: "auto",
-    backgroundColor: "#185e63ff",
-  },
-});

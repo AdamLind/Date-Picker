@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
 
-## Get started
+{Provide a description of your app.  Describe how to use the app.}
+This app, Date-Picker (until I think of a better name), is an app that is designed to pull in numerous date/activtiy ideas from the web and organize them into a database. Then, when a user enters their criteria for their perfect date the app will algorithmically select and organize a date that matches all of their preferences. It will make scheduling activities and dates much simpler and provide a way to quickly organize a well-planned date or activity in little to no time at all. Eventually this app will also provide a space for communities of people to share and vote on their favorite activities.
 
-1. Install dependencies
+{Describe your purpose for creating this app.}
+I started developing this app because my wife would constantly ask me what we should do for date night and I was stressed out trying to juggle plans and present new ideas all the time. I created this app in order to solve my problem. She asks what date we should go on and within a minute I'll have a fully scheduled date that meets all of our criteria. (budget, timeframe, stay in/go out, etc..)
 
-   ```bash
-   npm install
-   ```
+{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the app running and a walkthrough of the code.}
+[Software Demo Video](http://youtube.link.goes.here)
 
-2. Start the app
+# Development Environment
 
-   ```bash
-   npx expo start
-   ```
+{Describe the tools that you used to develop the app}
+I used VS Code and Expo Go.
 
-In the output, you'll find options to open the app in a
+{Describe the programming language that you used and any libraries.}
+I developed this app using React Native. React Native is a cross-platform language that closely resembles the React web language.
+Notable Libraries:
+nativewind (tailwind css for react native apps)
+expo-Location
+react-native-community/datetimepicker
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+# Useful Websites
 
-## Get a fresh project
+{Make a list of websites that you found helpful in this project}
+* [Tailwind Docs](https://tailwindcss.com/)
+* [Expo Docs](https://docs.expo.dev/)
+* [Figma](https://www.figma.com/)
 
-When you're ready, run:
+# Future Work
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+{Make a list of things that you need to fix, improve, and add in the future.}
+* UI: Currently I'm not using space effectively and it's not very visually appealing.
+* Generation Algorithm: I've developed most of the UI, now I need to sort out the logic behind it.
+* Database: I need to build a large, clean dataset to make the app work well.
