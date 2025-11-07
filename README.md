@@ -1,7 +1,7 @@
 # Overview
 
 
-This app, Date-Picker (until I think of a better name), is an app that is designed to pull in numerous date/activtiy ideas from the web and organize them into a database. Then, when a user enters their criteria for their perfect date the app will algorithmically select and organize a date that matches all of their preferences. It will make scheduling activities and dates much simpler and provide a way to quickly organize a well-planned date or activity in little to no time at all. Eventually this app will also provide a space for communities of people to share and vote on their favorite activities.
+This app, Date-Picker (until I think of a better name), is an app that is designed to pull in numerous date/activtiy ideas from the web and organize them into a database. Then, when a user enters their criteria for their perfect date the app will algorithmically select activities and organize a date that matches all of their preferences. It will make scheduling activities and dates much simpler and provide a way to quickly organize a well-planned date or activity in little to no time at all. Eventually this app will also provide a space for communities of people to share and vote on their favorite activities.
 
 I started developing this app because my wife would constantly ask me what we should do for date night and I was stressed out trying to juggle plans and present new ideas all the time. I created this app in order to solve my problem. She asks what date we should go on and within a minute I'll have a fully scheduled date that meets all of our criteria. (budget, timeframe, stay in/go out, etc..)
 
