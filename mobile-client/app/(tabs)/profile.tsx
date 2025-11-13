@@ -6,7 +6,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import {ThemedText} from "@/components/ThemedText";
 import {ThemedView} from "@/components/ThemedView";
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <ThemedText type="title">Your Profile</ThemedText>
